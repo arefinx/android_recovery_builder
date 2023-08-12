@@ -10,4 +10,6 @@ tg_pushzip() {
             -F parse_mode=html &> /dev/null
 }
 
-tg_pushzip ${GITHUB_WORKSPACE}/out/target/product/mojito/vendor_boot.img
+tg_pushzip ${GITHUB_WORKSPACE}/out/target/produc/*/vendor_boot.img
+tg_pushzip ${GITHUB_WORKSPACE}/out/target/produc/*/boot.img
+tg_pushzip ${GITHUB_WORKSPACE}/out/target/produc/*/recovery.img

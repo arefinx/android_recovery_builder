@@ -63,7 +63,7 @@ jobs:
       run: |
         bash ${GITHUB_WORKSPACE}/scripts/telegram-ofox.sh
         sudo apt install aria2 -y
-        git clone https://gitlab.com/OrangeFox/misc/script
+        git clone https://gitlab.com/OrangeFox/misc/scripts script
         cd script
         sudo bash setup/android_build_env.sh
 
@@ -92,6 +92,7 @@ jobs:
 
     - name: Building OrangeFox
       run: |
+        bash ${GITHUB_WORKSPACE}/scripts/compiling-started.txt
         cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ github.event.inputs.MANIFEST_BRANCH }}
         set +e
         source build/envsetup.sh
