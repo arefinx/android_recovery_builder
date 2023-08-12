@@ -40,7 +40,7 @@ on:
 
 jobs:
   build:
-    name: Build OFRP by ${{ github.actor }}
+    name: OrangeFox by ${{ github.actor }}
     runs-on: ubuntu-latest
     if: github.event.repository.owner.id == github.event.sender.id
     env:
@@ -61,9 +61,10 @@ jobs:
 
     - name: Build Environment
       run: |
+        bash ${GITHUB_WORKSPACE}/scripts/telegram-ofox.sh
         sudo apt install aria2 -y
-        git clone https://gitlab.com/OrangeFox/misc/scripts
-        cd scripts
+        git clone https://gitlab.com/OrangeFox/misc/script
+        cd script
         sudo bash setup/android_build_env.sh
 
     - name: Set-up Manifest
@@ -118,7 +119,11 @@ jobs:
             exit 1
         fi
 
-    - name: Upload to Release
+    - name: Upload to Gofile
       run: |
-        bash ${GITHUB_WORKSPACE}/scripts/upload.sh OrangeFox/fox_${{ github.event.inputs.MANIFEST_BRANCH }}/out/target/product/${{ github.event.inputs.DEVICE_NAME }}/OrangeFox*.img OrangeFox/fox_${{ github.event.inputs.MANIFEST_BRANCH }}/out/target/product/${{ github.event.inputs.DEVICE_NAME }}/OrangeFox*.zip
+        bash ${GITHUB_WORKSPACE}/scripts/upload.sh OrangeFox/fox_${{ github.event.inputs.MANIFEST_BRANCH }}/out/target/product/${{ github.event.inputs.DEVICE_NAME }}/OrangeFox*.img 
+        bash ${GITHUB_WORKSPACE}/scripts/upload.sh OrangeFox/fox_${{ github.event.inputs.MANIFEST_BRANCH }}/out/target/product/${{ github.event.inputs.DEVICE_NAME }}/OrangeFox*.zip
 
+    - name: Upload to Telegram
+      run: |
+        bash ${GITHUB_WORKSPACE}/scripts/upload-tg-ofox.sh

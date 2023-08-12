@@ -49,12 +49,14 @@ on:
 
 jobs:
   build:
+    name: TeamWin by ${{ github.actor }}
     if: github.event.repository.owner.id == github.event.sender.id
     runs-on: ubuntu-20.04
     # You can use either of the ubuntu-18.04 or ubuntu-20.04 runner
     steps:
     - name: Display Run Parameters
       run: |
+        bash ${GITHUB_WORKSPACE}/scripts/telegram-twrp.sh
         echo "::group::User Environment Variables"
         echo "Manifest URL: ${{ github.event.inputs.MANIFEST_URL }}"
         echo "Manifest Branch: ${{ github.event.inputs.MANIFEST_BRANCH }}"
@@ -105,8 +107,8 @@ jobs:
         mkdir workspace
         cd workspace
         echo "workspace-folder=$(pwd)" >> $GITHUB_OUTPUT
-        git config --global user.name "Captain Throwback"
-        git config --global user.email "captainthrowback@hotmail.com"
+        git config --global user.name "Ahmed Arefin"
+        git config --global user.email "ahmedarefinsajjad@gmail.com"
         repo init --depth=1 -u ${{ github.event.inputs.MANIFEST_URL }} -b ${{ github.event.inputs.MANIFEST_BRANCH }}
       id: pwd
 
@@ -155,6 +157,10 @@ jobs:
         lunch ${{ github.event.inputs.MAKEFILE_NAME }}-eng && make clean && make ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)
       working-directory: ${{ steps.pwd.outputs.workspace-folder }}
 
-    - name: Upload to Release
+    - name: Upload to Gofile
       run: |
         bash ${GITHUB_WORKSPACE}/scripts/upload.sh workspace/out/target/product/${{ github.event.inputs.DEVICE_NAME }}/vendor_boot.img
+
+    - name: Upload to Telegram
+      run: |
+        bash ${GITHUB_WORKSPACE}/scripts/upload-tg-twrp.sh
