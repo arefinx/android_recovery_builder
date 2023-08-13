@@ -112,12 +112,14 @@ jobs:
             echo "CHECK_IMG_IS_OK=true" >> $GITHUB_ENV
         else
             echo "Recovery out directory is empty."
+            curl -T out/error.log temp.sh
             exit 1
         fi
         if [ -f out/target/product/${{ github.event.inputs.DEVICE_NAME }}/OrangeFox*.zip ]; then
             echo "CHECK_ZIP_IS_OK=true" >> $GITHUB_ENV
         else
             echo "Recovery out directory is empty."
+            curl -T out/error.log temp.sh
             exit 1
         fi
 
